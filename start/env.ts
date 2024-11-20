@@ -28,4 +28,13 @@ export default await Env.create(new URL('../', import.meta.url), {
   DB_USER: Env.schema.string(),
   DB_PASSWORD: Env.schema.string.optional(),
   DB_DATABASE: Env.schema.string(),
+
+  /*
+  |----------------------------------------------------------
+  | Variables for Telegram API
+  |----------------------------------------------------------
+  */
+  API_ID: Env.schema.string(),
+  API_HASH: Env.schema.string(),
+  STRING_SESSION: Env.schema.string(),
 })
