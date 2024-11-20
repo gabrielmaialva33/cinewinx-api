@@ -14,8 +14,10 @@ export default class GenerateSession extends BaseCommand {
   static options: CommandOptions = {}
 
   static help = [
-    'This command generates a new session string for the Telegram client.',
-    'You can use this session string to login to your Telegram account.',
+    'This command will help you generate a new session string for your Telegram client.',
+    'You will need to provide your Telegram API ID and API Hash to authenticate with Telegram.',
+    'If you do not provide these values, you will be prompted to enter them.',
+    'The generated session string will be displayed at the end of the process.',
   ]
 
   @args.string({
