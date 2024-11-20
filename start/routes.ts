@@ -11,6 +11,9 @@ import router from '@adonisjs/core/services/router'
 
 router.get('/', async () => {
   return {
-    hello: 'world',
+    status: 'OK',
+    message: 'Welcome to CineWinx API',
   }
 })
+
+import '#routes/index'
