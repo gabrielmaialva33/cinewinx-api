@@ -26,11 +26,12 @@
     "#providers/*": "./providers/*.js",
     "#policies/*": "./app/policies/*.js",
     "#abilities/*": "./app/abilities/*.js",
+    "#routes/*": "./app/routes/*.js",
+    "#repositories/*": "./app/repositories/*.js",
     "#database/*": "./database/*.js",
     "#start/*": "./start/*.js",
     "#tests/*": "./tests/*.js",
-    "#config/*": "./config/*.js",
-    "#routes/*": "./app/routes/*.js"
+    "#config/*": "./config/*.js"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^7.8.2",
@@ -62,6 +63,7 @@
     "luxon": "^3.5.0",
     "pg": "^8.13.1",
     "reflect-metadata": "^0.2.2",
+    "socket.io": "^4.8.1",
     "telegram": "^2.26.8"
   },
   "hotHook": {

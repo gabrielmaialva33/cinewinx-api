@@ -9,11 +9,9 @@
 
 import router from '@adonisjs/core/services/router'
 
-router.get('/', async () => {
-  return {
-    status: 'OK',
-    message: 'Welcome to CineWinx API',
-  }
+router.get('/', async ({ view }) => {
+  const videoUrl = '/stream?video=1'
+  return view.render('stream', { videoUrl })
 })
 
 import '#routes/index'

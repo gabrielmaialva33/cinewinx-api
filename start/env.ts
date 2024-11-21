@@ -37,4 +37,5 @@ export default await Env.create(new URL('../', import.meta.url), {
   API_ID: Env.schema.number(),
   API_HASH: Env.schema.string(),
   STRING_SESSION: Env.schema.string(),
+  CHANNEL_ID: Env.schema.string(),
 })
