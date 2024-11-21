@@ -58,6 +58,7 @@
     "@adonisjs/lucid": "^21.4.0",
     "@vinejs/vine": "^2.1.0",
     "big-integer": "^1.6.52",
+    "edge.js": "^6.2.0",
     "luxon": "^3.5.0",
     "pg": "^8.13.1",
     "reflect-metadata": "^0.2.2",
