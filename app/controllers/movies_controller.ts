@@ -2,14 +2,11 @@ import { inject } from '@adonisjs/core'
 import { HttpContext } from '@adonisjs/core/http'
 
 import { TelegramService } from '#services/telegram_service'
-import { ListPostService } from '#services/telegram/index'
+// import { ListPostService } from '#services/telegram/index'
 
 @inject()
 export default class MoviesController {
-  constructor(
-    protected telegramService: TelegramService,
-    protected listPostService: ListPostService
-  ) {}
+  constructor(protected telegramService: TelegramService) {}
 
   async stream({ request, response }: HttpContext) {
     const range = request.header('range')
@@ -40,8 +37,8 @@ export default class MoviesController {
     }
   }
 
-  async index({ response }: HttpContext) {
-    const post = await this.listPostService.run()
-    return response.send(post)
-  }
+  // async index({ response }: HttpContext) {
+  //   const post = await this.listPostService.run()
+  //   return response.send(post)
+  // }
 }

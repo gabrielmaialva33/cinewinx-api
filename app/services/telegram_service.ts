@@ -1,80 +1,26 @@
-import { inject } from '@adonisjs/core'
-
 import { Api, TelegramClient } from 'telegram'
-import { StringSession } from 'telegram/sessions/index.js'
 import bigInt from 'big-integer'
 
-import Env from '#start/env'
 import { Readable } from 'node:stream'
+import app from '@adonisjs/core/services/app'
 
-@inject()
 export class TelegramService {
-  private client: TelegramClient
+  protected client: TelegramClient | null = null
 
-  constructor() {
-    const apiId = Env.get('API_ID')
-    const apiHash = Env.get('API_HASH')
-    const stringSession = new StringSession(Env.get('STRING_SESSION') ?? '')
+  constructor() {}
 
-    this.client = new TelegramClient(stringSession, apiId, apiHash, {
-      connectionRetries: 5,
-      autoReconnect: true,
-    })
-  }
+  protected async getClient(): Promise<TelegramClient> {
+    if (!this.client) this.client = await app.container.make<typeof TelegramClient>(TelegramClient)
 
-  async list() {
-    await this.client.connect()
-
-    const channelId = bigInt(-1001774402469)
-    const channel = await this.client.getEntity(channelId)
-    const messages = await this.client.getMessages(channel, { limit: 1 })
-
-    const post = messages[0] as Api.Message & {
-      media: Api.MessageMediaDocument & { document: Api.DocumentAttributeVideo }
-    }
-
-    if (!post.media || !post.media.document) throw new Error('No media found')
-
-    return post
-  }
-
-  async stream() {
-    await this.client.connect()
-
-    const channelId = bigInt(-1001774402469)
-    const channel = await this.client.getEntity(channelId)
-    const messages = await this.client.getMessages(channel, { limit: 1 })
-
-    const post = messages[0] as Api.Message & {
-      media: Api.MessageMediaDocument & { document: Api.Document }
-    }
-
-    if (!post.media || !post.media.document) throw new Error('No media found')
-
-    const document = post.media.document
-
-    const iterable = this.client.iterDownload({
-      file: new Api.InputDocumentFileLocation({
-        id: document.id,
-        accessHash: document.accessHash,
-        fileReference: document.fileReference,
-        thumbSize: '',
-      }),
-      fileSize: document.size,
-      requestSize: 1024 * 1024, // 1MB
-    })
-
-    const stream = Readable.from(iterable)
-
-    return { stream, size: document.size }
+    return this.client
   }
 
   async getVideoInfo() {
-    await this.client.connect()
+    const client = await this.getClient()
 
     const channelId = bigInt('-1001774402469')
-    const channel = await this.client.getEntity(channelId)
-    const messages = await this.client.getMessages(channel, { limit: 1 })
+    const channel = await client.getEntity(channelId)
+    const messages = await client.getMessages(channel, { limit: 1 })
 
     const post = messages[0] as Api.Message & {
       media: Api.MessageMediaDocument & { document: Api.Document }
@@ -88,9 +34,11 @@ export class TelegramService {
   }
 
   async getVideoStream(start: number, end: number) {
+    const client = await this.getClient()
+
     const { document } = await this.getVideoInfo()
 
-    const iterable = this.client.iterDownload({
+    const iterable = client.iterDownload({
       file: new Api.InputDocumentFileLocation({
         id: document.id,
         accessHash: document.accessHash,
@@ -99,7 +47,11 @@ export class TelegramService {
       }),
       offset: bigInt(start),
       limit: end - start + 1,
-      requestSize: 1024 * 1024, // 1MB
+      requestSize: 1024 * 1024 * 2, // 2MB
+      chunkSize: 1024 * 1024 * 2, // 2MB
+      stride: 1024 * 1024 * 2, // 2MB
+      dcId: document.dcId,
+      fileSize: document.size,
     })
 
     const stream = Readable.from(iterable)
