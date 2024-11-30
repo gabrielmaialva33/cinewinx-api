@@ -1,30 +1,20 @@
-import { Api, TelegramClient } from 'telegram'
+import { Api } from 'telegram'
 import bigInt from 'big-integer'
 
 import { Readable } from 'node:stream'
-import app from '@adonisjs/core/services/app'
 import { inject } from '@adonisjs/core'
+import TelegramRepository from '#repositories/telegram_repository'
 
 @inject()
 export class TelegramService {
-  protected client: TelegramClient | null = null
-
-  constructor() {}
-
-  protected async getClient(): Promise<TelegramClient> {
-    if (!this.client) this.client = await app.container.make<typeof TelegramClient>(TelegramClient)
-
-    return this.client
-  }
+  constructor(private telegramRepository: TelegramRepository) {}
 
   async getVideoInfo() {
-    const client = await this.getClient()
-
     const channelId = bigInt('-1001774402469')
-    const channel = await client.getEntity(channelId)
-    const messages = await client.getMessages(channel, { limit: 2 })
+    const channel = await this.telegramRepository.client().getEntity(channelId)
+    const messages = await this.telegramRepository.client().getMessages(channel, { limit: 2 })
 
-    const post = messages[1] as Api.Message & {
+    const post = messages[0] as Api.Message & {
       media: Api.MessageMediaDocument & { document: Api.Document }
     }
 
@@ -36,11 +26,9 @@ export class TelegramService {
   }
 
   async getVideoStream(start: number, end: number) {
-    const client = await this.getClient()
-
     const { document } = await this.getVideoInfo()
 
-    const iterable = client.iterDownload({
+    const iterable = this.telegramRepository.client().iterDownload({
       file: new Api.InputDocumentFileLocation({
         id: document.id,
         accessHash: document.accessHash,
