@@ -11,15 +11,15 @@ await app.booted(async () => {
 })
 
 export default class TelegramRepository {
-  protected telegramClient: TelegramClient
+  protected telegram: TelegramClient
   protected channelId: string = env.get('CHANNEL_ID')
 
   constructor() {
-    this.telegramClient = client
+    this.telegram = client
   }
 
   public get client() {
-    return this.telegramClient
+    return this.telegram
   }
 
   public get channel() {
@@ -30,6 +30,6 @@ export default class TelegramRepository {
    * List all messages from the channel
    */
   public async listMessages() {
-    return this.telegramClient.getMessages(this.channelId)
+    return this.telegram.getMessages(this.channelId)
   }
 }
