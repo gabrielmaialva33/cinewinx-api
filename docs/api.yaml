@@ -1,0 +1,253 @@
+openapi: 3.1.0
+info:
+  title: CineWinx API
+  version: 0.0.1
+  description: |
+    ## About
+    This is the API documentation for the CineWinx system. The API is used to streaming movies and series. Using this API telegram channel.
+
+    ## Authentication
+    The API uses JWT for authentication. To authenticate, you must send the `Authorization` header with the value `Bearer <token>`. The token is obtained by signing in to the system.
+
+    ### Postman Post-Request Script
+    You can use the following code to get a token in Postman:
+    ```js
+    var responseData = pm.response.json();
+    var token = responseData.auth.access_token;
+    pm.environment.set("bearerToken", token);
+    ```
+servers:
+  - url: http://localhost:3333
+    description: Local server
+tags:
+  - name: Session
+    description: Operations related to sessions
+  - name: User
+    description: Operations related to users
+paths:
+  /health:
+    get:
+      summary: System Health Check
+      description: Returns the system health status and detailed checks.
+      tags:
+        - Health
+      parameters:
+        - name: Content-Type
+          in: header
+          required: true
+          schema:
+            type: string
+            example: application/json
+      responses:
+        '200':
+          description: System health information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthCheckResponse'
+components:
+  securitySchemes:
+    bearerToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    # errors
+    Unauthorized:
+      type: object
+      properties:
+        status:
+          type: number
+          description: The status code of the error.
+          example: 401
+        message:
+          type: string
+          description: The error message.
+          example: Invalid user credentials
+    NotFound:
+      type: object
+      properties:
+        status:
+          type: number
+          description: The status code of the error.
+          example: 404
+        message:
+          type: string
+          description: The error message.
+          example: Entity not found
+    UnprocessableEntity:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+                description: The error message.
+                example: The email has already been taken
+              rule:
+                type: string
+                description: The rule that was broken.
+                example: database.unique
+              field:
+                type: string
+                description: The field that caused the error.
+                example: email
+            example:
+              - {
+                  'message': 'The email has already been taken',
+                  'rule': 'database.unique',
+                  'field': 'email',
+                }
+              - {
+                  'message': 'The username has already been taken',
+                  'rule': 'database.unique',
+                  'field': 'username',
+                }
+
+    # health schemas
+    HealthCheckResponse:
+      type: object
+      properties:
+        isHealthy:
+          type: boolean
+          description: Indicates if the system is healthy.
+          example: false
+        status:
+          type: string
+          description: The overall health status.
+          example: error
+        finishedAt:
+          type: string
+          format: date-time
+          description: The timestamp when the health check was completed.
+          example: 2024-11-24T20:18:20.947Z
+        debugInfo:
+          type: object
+          properties:
+            pid:
+              type: integer
+              description: Process ID of the application.
+              example: 20813
+            ppid:
+              type: integer
+              description: Parent process ID of the application.
+              example: 20810
+            platform:
+              type: string
+              description: Platform on which the application is running.
+              example: darwin
+            uptime:
+              type: number
+              description: Uptime of the application in seconds.
+              example: 3.838426084
+            version:
+              type: string
+              description: Application version.
+              example: v22.11.0
+        checks:
+          type: array
+          items:
+            $ref: '#/components/schemas/HealthCheck'
+    HealthCheck:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the health check.
+          example: Disk space check
+        isCached:
+          type: boolean
+          description: Indicates if the result is cached.
+          example: false
+        message:
+          type: string
+          description: Message describing the health check result.
+          example: Disk usage is under defined thresholds
+        status:
+          type: string
+          description: Status of the health check.
+          enum:
+            - ok
+            - warning
+            - error
+          example: ok
+        finishedAt:
+          type: string
+          format: date-time
+          description: The timestamp when the check was completed.
+          example: 2024-11-24T20:18:20.947Z
+        meta:
+          type: object
+          description: Additional metadata about the health check.
+          properties:
+            sizeInPercentage:
+              type: object
+              nullable: true
+              properties:
+                used:
+                  type: integer
+                  description: Used disk percentage.
+                  example: 48
+                failureThreshold:
+                  type: integer
+                  description: Threshold for failure in percentage.
+                  example: 80
+                warningThreshold:
+                  type: integer
+                  description: Threshold for warnings in percentage.
+                  example: 75
+            memoryInBytes:
+              type: object
+              nullable: true
+              properties:
+                used:
+                  type: integer
+                  description: Memory used in bytes.
+                  example: 37537600
+                failureThreshold:
+                  type: integer
+                  description: Threshold for failure in bytes.
+                  example: 314572800
+                warningThreshold:
+                  type: integer
+                  description: Threshold for warnings in bytes.
+                  example: 262144000
+            error:
+              type: object
+              nullable: true
+              properties:
+                errno:
+                  type: integer
+                  description: Error number.
+                  example: -61
+                code:
+                  type: string
+                  description: Error code.
+                  example: ECONNREFUSED
+                syscall:
+                  type: string
+                  description: System call that failed.
+                  example: connect
+                address:
+                  type: string
+                  description: Address of the connection attempt.
+                  example: 127.0.0.1
+                port:
+                  type: integer
+                  description: Port of the connection attempt.
+                  example: 5432
+            connection:
+              type: object
+              nullable: true
+              properties:
+                name:
+                  type: string
+                  description: Name of the connection.
+                  example: postgres
+                dialect:
+                  type: string
+                  description: Database dialect.
+                  example: postgres

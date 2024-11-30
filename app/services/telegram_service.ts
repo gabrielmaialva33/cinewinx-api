@@ -23,14 +23,14 @@ export class TelegramService {
       return this.cacheService.get(cacheKey)
     }
 
-    const channel = await this.telegramRepository.client().getEntity(channelId)
-    const messages = await this.telegramRepository.client().getMessages(channel, { limit: 4 })
+    const channel = await this.telegramRepository.client.getEntity(channelId)
+    const messages = await this.telegramRepository.client.getMessages(channel, { limit: 4 })
 
     if (!messages.length) {
       throw new Error('No messages found in the provided channel')
     }
 
-    const post = messages[1] as Api.Message & {
+    const post = messages[2] as Api.Message & {
       media: Api.MessageMediaDocument & { document: Api.Document }
     }
 
@@ -56,7 +56,7 @@ export class TelegramService {
     const fileSize = document.size
     const downloadParams = this.computeDownloadParams(fileSize)
 
-    const iterable = this.telegramRepository.client().iterDownload({
+    const iterable = this.telegramRepository.client.iterDownload({
       file: new Api.InputDocumentFileLocation({
         id: document.id,
         accessHash: document.accessHash,

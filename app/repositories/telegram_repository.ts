@@ -1,5 +1,7 @@
-import app from '@adonisjs/core/services/app'
 import { TelegramClient } from 'telegram'
+import app from '@adonisjs/core/services/app'
+
+import env from '#start/env'
 
 let client: TelegramClient
 
@@ -10,12 +12,13 @@ await app.booted(async () => {
 
 export default class TelegramRepository {
   protected telegramClient: TelegramClient
+  protected channelId: string = env.get('CHANNEL_ID')
 
   constructor() {
     this.telegramClient = client
   }
 
-  client() {
+  public get client() {
     return this.telegramClient
   }
 }
