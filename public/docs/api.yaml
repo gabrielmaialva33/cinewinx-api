@@ -19,8 +19,8 @@ info:
 
     <!-- ReDoc-Inject: <security-definitions> -->
   x-logo:
-      url: ''
-      altText: HideDev Logo
+      url: 'https://raw.githubusercontent.com/gabrielmaialva33/cinewinx-api/refs/heads/main/public/docs/logo.jpg'
+      altText: Logo
   contact:
       name: Gabriel M.
       email: gabrielmaialva33@gmail.com
