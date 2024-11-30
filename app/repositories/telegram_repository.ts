@@ -21,4 +21,15 @@ export default class TelegramRepository {
   public get client() {
     return this.telegramClient
   }
+
+  public get channel() {
+    return this.channelId
+  }
+
+  /**
+   * List all messages from the channel
+   */
+  public async listMessages() {
+    return this.telegramClient.getMessages(this.channelId)
+  }
 }

@@ -16,6 +16,18 @@ info:
     var token = responseData.auth.access_token;
     pm.environment.set("bearerToken", token);
     ```
+
+    <!-- ReDoc-Inject: <security-definitions> -->
+  x-logo:
+      url: ''
+      altText: HideDev Logo
+  contact:
+      name: Gabriel M.
+      email: gabrielmaialva33@gmail.com
+      url: https://github.com/gabrielmaialva33
+  license:
+      name: MIT
+      url: https://opensource.org/licenses/MIT
 servers:
   - url: http://localhost:3333
     description: Local server
