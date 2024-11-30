@@ -4,21 +4,33 @@ import bigInt from 'big-integer'
 import { Readable } from 'node:stream'
 import { inject } from '@adonisjs/core'
 import TelegramRepository from '#repositories/telegram_repository'
+import CacheService from '#services/cache_service'
 
 @inject()
 export class TelegramService {
-  constructor(private telegramRepository: TelegramRepository) {}
+  constructor(
+    private telegramRepository: TelegramRepository,
+    private cacheService: CacheService
+  ) {}
 
   async getVideoInfo(): Promise<Api.Document> {
     const channelId = bigInt('-1001774402469')
+    const cacheKey = `video-info-${channelId.toString()}`
+
+    if (this.cacheService.has(cacheKey)) {
+      console.log('Cache hit')
+      console.log(this.cacheService.get(cacheKey))
+      return this.cacheService.get(cacheKey)
+    }
+
     const channel = await this.telegramRepository.client().getEntity(channelId)
-    const messages = await this.telegramRepository.client().getMessages(channel, { limit: 2 })
+    const messages = await this.telegramRepository.client().getMessages(channel, { limit: 4 })
 
     if (!messages.length) {
       throw new Error('No messages found in the provided channel')
     }
 
-    const post = messages[0] as Api.Message & {
+    const post = messages[1] as Api.Message & {
       media: Api.MessageMediaDocument & { document: Api.Document }
     }
 
@@ -26,11 +38,20 @@ export class TelegramService {
       throw new Error('No media found in the provided message')
     }
 
-    return post.media.document
+    const document = post.media.document
+
+    this.cacheService.set(cacheKey, document)
+
+    return document
   }
 
   async getVideoStream(start: number, end: number): Promise<{ stream: Readable }> {
     const document = await this.getVideoInfo()
+    // const cacheKey = `video-stream-${document.id}-${start}-${end}`
+
+    // if (this.cacheService.has(cacheKey)) {
+    //   return this.cacheService.get(cacheKey)
+    // }
 
     const fileSize = document.size
     const downloadParams = this.computeDownloadParams(fileSize)
@@ -52,6 +73,9 @@ export class TelegramService {
     })
 
     const stream = Readable.from(iterable)
+
+    // this.cacheService.set(cacheKey, { stream })
+
     return { stream }
   }
 

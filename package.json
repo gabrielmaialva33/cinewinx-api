@@ -57,6 +57,7 @@
     "@adonisjs/core": "^6.15.1",
     "@adonisjs/cors": "^2.2.1",
     "@adonisjs/lucid": "^21.4.0",
+    "@adonisjs/redis": "^9.1.0",
     "@adonisjs/session": "^7.5.0",
     "@vinejs/vine": "^2.1.0",
     "big-integer": "^1.6.52",
