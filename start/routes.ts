@@ -9,9 +9,10 @@
 
 import router from '@adonisjs/core/services/router'
 
-router.get('/', async ({ view }) => {
-  const videoUrl = '/stream?video=1'
-  return view.render('stream', { videoUrl })
+router.get('/', async () => {
+  return {
+    hello: 'world',
+  }
 })
 
 import '#routes/index'

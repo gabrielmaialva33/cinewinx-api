@@ -6,9 +6,3 @@ router
     router.get('/', [MoviesController, 'stream']).as('movies.stream')
   })
   .prefix('stream')
-
-router
-  .group(() => {
-    router.get('/', [MoviesController, 'index']).as('movies.index')
-  })
-  .prefix('movies')

@@ -3,7 +3,9 @@ import bigInt from 'big-integer'
 
 import { Readable } from 'node:stream'
 import app from '@adonisjs/core/services/app'
+import { inject } from '@adonisjs/core'
 
+@inject()
 export class TelegramService {
   protected client: TelegramClient | null = null
 
@@ -20,9 +22,9 @@ export class TelegramService {
 
     const channelId = bigInt('-1001774402469')
     const channel = await client.getEntity(channelId)
-    const messages = await client.getMessages(channel, { limit: 1 })
+    const messages = await client.getMessages(channel, { limit: 2 })
 
-    const post = messages[0] as Api.Message & {
+    const post = messages[1] as Api.Message & {
       media: Api.MessageMediaDocument & { document: Api.Document }
     }
 

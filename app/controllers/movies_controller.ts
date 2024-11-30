@@ -1,16 +1,16 @@
+import type { HttpContext } from '@adonisjs/core/http'
+import app from '@adonisjs/core/services/app'
 import { inject } from '@adonisjs/core'
-import { HttpContext } from '@adonisjs/core/http'
 
 import { TelegramService } from '#services/telegram_service'
-// import { ListPostService } from '#services/telegram/index'
 
 @inject()
 export default class MoviesController {
-  constructor(protected telegramService: TelegramService) {}
-
   async stream({ request, response }: HttpContext) {
+    const telegramService = await app.container.make(TelegramService)
+
     const range = request.header('range')
-    const { size } = await this.telegramService.getVideoInfo()
+    const { size } = await telegramService.getVideoInfo()
 
     // bigInt to number
     const sizeNumber = size.toJSNumber()
@@ -18,7 +18,7 @@ export default class MoviesController {
     if (!range) {
       response.header('Content-Type', 'video/mp4')
       response.header('Content-Length', sizeNumber.toString())
-      const { stream } = await this.telegramService.getVideoStream(0, sizeNumber - 1)
+      const { stream } = await telegramService.getVideoStream(0, sizeNumber - 1)
       return response.stream(stream)
     } else {
       const positions = range.replace(/bytes=/, '').split('-')
@@ -32,13 +32,8 @@ export default class MoviesController {
       response.header('Content-Length', chunkSize)
       response.header('Content-Type', 'video/mp4')
 
-      const { stream } = await this.telegramService.getVideoStream(start, end)
+      const { stream } = await telegramService.getVideoStream(start, end)
       return response.stream(stream)
     }
   }
-
-  // async index({ response }: HttpContext) {
-  //   const post = await this.listPostService.run()
-  //   return response.send(post)
-  // }
 }

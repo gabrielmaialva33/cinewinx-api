@@ -1,5 +1,4 @@
 import type { ApplicationService } from '@adonisjs/core/types'
-
 import { TelegramClient } from 'telegram'
 import { StringSession } from 'telegram/sessions/index.js'
 
@@ -11,7 +10,7 @@ export default class TelegramProvider {
   /**
    * Register bindings to the container
    */
-  async register() {
+  register() {
     this.app.container.singleton(TelegramClient, () => {
       const apiId = Env.get('API_ID')
       const apiHash = Env.get('API_HASH')
