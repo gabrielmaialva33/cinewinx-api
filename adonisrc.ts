@@ -34,9 +34,10 @@ export default defineConfig({
     () => import('@adonisjs/session/session_provider'),
     () => import('@adonisjs/auth/auth_provider'),
     () => import('@adonisjs/redis/redis_provider'),
-    () => import('#providers/telegram_provider'),
     () => import('@adonisjs/core/providers/edge_provider'),
     () => import('@adonisjs/static/static_provider'),
+    () => import('#providers/telegram_provider'),
+    () => import('#providers/cache_provider'),
   ],
 
   /*

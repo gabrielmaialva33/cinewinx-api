@@ -1,15 +1,14 @@
 import { Api, TelegramClient } from 'telegram'
-
 import type { Entity } from 'telegram/define.js'
 import bigInt from 'big-integer'
 import { Readable } from 'node:stream'
 import app from '@adonisjs/core/services/app'
 
 import env from '#start/env'
-import parseMessageContent from '#helpers/parse_message_content'
 import { Post } from '#interfaces/movie_types'
-
 import BadRequestException from '#exceptions/bad_request_exception'
+
+import parseMessageContent from '#helpers/parse_message_content'
 
 let telegramClient: TelegramClient
 let channel: Entity
@@ -176,7 +175,6 @@ export default class TelegramRepository {
         reactions: reactions,
         original_content: infoMessage.message,
         parsed_content: parsedData,
-
         document: mediaMessage.media.document,
       }
     }

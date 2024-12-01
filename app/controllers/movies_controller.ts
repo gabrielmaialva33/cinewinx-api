@@ -27,7 +27,9 @@ export default class MoviesController {
     const getPostService = await app.container.make(GetPostService)
     const post = await getPostService.run(id)
 
+    // set image_url and video_url
     post.image_url = `http://${request.header('host')}/movies/images?message_id=${post.message_id}`
+    post.video_url = `http://${request.header('host')}/movies/videos?document_id=${post.document.id.toString()}&size=${post.document.size.toJSNumber()}`
 
     return response.json(post)
   }

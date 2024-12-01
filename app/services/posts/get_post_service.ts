@@ -1,4 +1,5 @@
 import { inject } from '@adonisjs/core'
+import app from '@adonisjs/core/services/app'
 
 import TelegramRepository from '#repositories/telegram_repository'
 import NotFoundException from '#exceptions/not_found_exception'
@@ -7,15 +8,14 @@ import { Post } from '#interfaces/movie_types'
 
 @inject()
 export default class GetPostService {
-  constructor(
-    private telegramRepository: TelegramRepository,
-    private cacheService: CacheService
-  ) {}
+  constructor(private telegramRepository: TelegramRepository) {}
 
   async run(messageId: number) {
-    const cacheKey = `post-${messageId}`
-    if (this.cacheService.has(cacheKey)) {
-      return this.cacheService.get<Post>(cacheKey)
+    const cacheService = await app.container.make(CacheService)
+
+    const postCacheKey = `post-${messageId}`
+    if (cacheService.has(postCacheKey)) {
+      return cacheService.get<Post>(postCacheKey)
     }
 
     const post = await this.telegramRepository.getPost(messageId)
@@ -23,7 +23,12 @@ export default class GetPostService {
       throw new NotFoundException('post not found')
     }
 
-    this.cacheService.set(cacheKey, post)
+    cacheService.set(postCacheKey, post)
+
+    const documentCacheKey = `document-${Number.parseInt(post.document.id.toString(), 10)}`
+    if (!cacheService.has(documentCacheKey)) {
+      cacheService.set(documentCacheKey, post.document)
+    }
 
     return post
   }
