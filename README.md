@@ -35,9 +35,10 @@
 
 ## :bookmark: About
 
-**ＣｉｎｅＷｉｎｘ** is an open-source API for index and stream movies and series using the **[CineWinx](https://t.me/cinewinx)
-** channel. This project was developed using **[AdonisJS](https://adonisjs.com/)** and *
-*[GramJS](https://gram.js.org/introduction/)**.
+**ＣｉｎｅＷｉｎｘ** is an open-source API for index and stream movies and
+series using the **[CineWinx](https://t.me/cinewinx)** channel.
+This project was developed using **[AdonisJS](https://adonisjs.com/)**
+and **[GramJS](https://gram.js.org/introduction/)**.
 
 <br>
 
