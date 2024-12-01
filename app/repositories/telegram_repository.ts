@@ -22,10 +22,9 @@ await app.booted(async () => {
 })
 
 export default class TelegramRepository {
+  public channelId: bigInt.BigInteger
   protected telegram: TelegramClient
   protected channelEntity: Entity
-
-  public channelId: bigInt.BigInteger
 
   constructor() {
     this.telegram = telegramClient

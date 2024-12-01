@@ -8,6 +8,8 @@
 */
 
 import router from '@adonisjs/core/services/router'
+import '#routes/index'
+import app from '@adonisjs/core/services/app'
 
 router.get('/', async ({ view }) => {
   return view.render('doc')
@@ -18,6 +20,3 @@ router
     return response.download(app.publicPath(`docs/api.yaml`))
   })
   .as('api.docs')
-
-import '#routes/index'
-import app from '@adonisjs/core/services/app'
