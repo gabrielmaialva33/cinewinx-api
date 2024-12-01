@@ -35,8 +35,9 @@
 
 ## :bookmark: About
 
-**ＷｉｎｘＢｏｔ** is a Discord bot that aims to help server administrators to manage their servers, providing a set of
-commands to help with moderation, music, and fun.
+**ＣｉｎｅＷｉｎｘ** is an open-source API for index and stream movies and series using the **[CineWinx](https://t.me/cinewinx)
+** channel. This project was developed using **[AdonisJS](https://adonisjs.com/)** and *
+*[GramJS](https://gram.js.org/introduction/)**.
 
 <br>
 
@@ -46,7 +47,7 @@ commands to help with moderation, music, and fun.
 - **[Node.js](https://nodejs.org/)**
 - **[AdonisJS](https://adonisjs.com/)**
 - **[GramJS](https://gram.js.org/introduction/)**
-<br>
+  <br>
 
 ## :wrench: Tools
 
