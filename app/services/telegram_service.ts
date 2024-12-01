@@ -23,8 +23,10 @@ export class TelegramService {
       return this.cacheService.get(cacheKey)
     }
 
-    const channel = await this.telegramRepository.client.getEntity(channelId)
-    const messages = await this.telegramRepository.client.getMessages(channel, { limit: 4 })
+    const messages = await this.telegramRepository.client.getMessages(
+      this.telegramRepository.channel,
+      { limit: 4 }
+    )
 
     if (!messages.length) {
       throw new Error('No messages found in the provided channel')

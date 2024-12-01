@@ -19,15 +19,15 @@ info:
 
     <!-- ReDoc-Inject: <security-definitions> -->
   x-logo:
-      url: 'https://raw.githubusercontent.com/gabrielmaialva33/cinewinx-api/refs/heads/main/public/docs/logo.jpg'
-      altText: Logo
+    url: 'https://raw.githubusercontent.com/gabrielmaialva33/cinewinx-api/refs/heads/main/public/docs/logo.jpg'
+    altText: Logo
   contact:
-      name: Gabriel M.
-      email: gabrielmaialva33@gmail.com
-      url: https://github.com/gabrielmaialva33
+    name: Gabriel M.
+    email: gabrielmaialva33@gmail.com
+    url: https://github.com/gabrielmaialva33
   license:
-      name: MIT
-      url: https://opensource.org/licenses/MIT
+    name: MIT
+    url: https://opensource.org/licenses/MIT
 servers:
   - url: http://localhost:3333
     description: Local server
@@ -36,6 +36,10 @@ tags:
     description: Operations related to sessions
   - name: User
     description: Operations related to users
+  - name: Health
+    description: Operations related to system health
+  - name: Movie
+    description: Operations related to movies
 paths:
   /health:
     get:
@@ -57,6 +61,59 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResponse'
+
+  /movies:
+    get:
+      summary: List Movies
+      description: Returns a list of movies.
+      tags:
+        - Movie
+      parameters:
+        - name: Content-Type
+          in: header
+          required: true
+          schema:
+            type: string
+            example: application/json
+      responses:
+        '200':
+          description: A list of movies.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+  /movies/stream:
+    get:
+      summary: Stream Movie
+      description: Stream a movie.
+      tags:
+        - Movie
+      parameters:
+        - name: Content-Type
+          in: header
+          required: true
+          schema:
+            type: string
+            example: application/json
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+            example: Bearer <token>
+      responses:
+        '200':
+          description: The movie stream.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    description: The movie stream URL.
 components:
   securitySchemes:
     bearerToken:
@@ -263,3 +320,21 @@ components:
                   type: string
                   description: Database dialect.
                   example: postgres
+
+    # movie schemas
+    Movie:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique identifier of the movie.
+          example: 1f4d3f5e-2b64-4f5d-9b6d-2f4d3f5e2b64
+        title:
+          type: string
+          description: The title of the movie.
+          example: The Shawshank Redemption
+        description:
+          type: string
+          description: The description of the movie.
+          example: Two imprisoned

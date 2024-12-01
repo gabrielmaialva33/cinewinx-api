@@ -3,6 +3,7 @@ import app from '@adonisjs/core/services/app'
 import { inject } from '@adonisjs/core'
 
 import { TelegramService } from '#services/telegram_service'
+import PaginateMoviesService from '#services/paginate_movies_service'
 
 @inject()
 export default class MoviesController {
@@ -35,5 +36,12 @@ export default class MoviesController {
       const { stream } = await telegramService.getVideoStream(start, end)
       return response.stream(stream)
     }
+  }
+
+  async paginate({ response }: HttpContext) {
+    const paginateMoviesService = await app.container.make(PaginateMoviesService)
+    const movies = await paginateMoviesService.run()
+
+    return response.json(movies)
   }
 }
