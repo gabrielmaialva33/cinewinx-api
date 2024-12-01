@@ -114,6 +114,40 @@ paths:
                   url:
                     type: string
                     description: The movie stream URL.
+
+  /movies/{messageId}:
+    get:
+      summary: Get Movie
+      description: Returns a movie by ID.
+      tags:
+        - Movie
+      parameters:
+        - name: Content-Type
+          in: header
+          required: true
+          schema:
+            type: string
+            example: application/json
+        - name: messageId
+          in: path
+          required: true
+          schema:
+            type: number
+            format: int64
+            example: 7188
+      responses:
+        '200':
+          description: The movie.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        '404':
+          description: Movie not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
 components:
   securitySchemes:
     bearerToken:
@@ -166,15 +200,15 @@ components:
                 example: email
             example:
               - {
-                  'message': 'The email has already been taken',
-                  'rule': 'database.unique',
-                  'field': 'email',
-                }
+                'message': 'The email has already been taken',
+                'rule': 'database.unique',
+                'field': 'email',
+              }
               - {
-                  'message': 'The username has already been taken',
-                  'rule': 'database.unique',
-                  'field': 'username',
-                }
+                'message': 'The username has already been taken',
+                'rule': 'database.unique',
+                'field': 'username',
+              }
 
     # health schemas
     HealthCheckResponse:
