@@ -28,6 +28,8 @@
     "#abilities/*": "./app/abilities/*.js",
     "#routes/*": "./app/routes/*.js",
     "#repositories/*": "./app/repositories/*.js",
+    "#helpers/*": "./app/helpers/*.js",
+    "#interfaces/*": "./app/interfaces/*.js",
     "#database/*": "./database/*.js",
     "#start/*": "./start/*.js",
     "#tests/*": "./tests/*.js",

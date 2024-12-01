@@ -1,5 +1,5 @@
-import type { HttpContext } from '@adonisjs/core/http'
-import type { NextFn } from '@adonisjs/core/types/http'
+import type {HttpContext} from '@adonisjs/core/http'
+import type {NextFn} from '@adonisjs/core/types/http'
 
 /**
  * Silent auth middleware can be used as a global middleware to silent check
