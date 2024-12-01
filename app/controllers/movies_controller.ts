@@ -4,9 +4,24 @@ import { inject } from '@adonisjs/core'
 
 import { TelegramService } from '#services/telegram_service'
 import PaginateMoviesService from '#services/paginate_movies_service'
+import GetImageService from '#services/get_image_service'
 
 @inject()
 export default class MoviesController {
+  async paginate({ request, response }: HttpContext) {
+    const paginateMoviesService = await app.container.make(PaginateMoviesService)
+    const movies = await paginateMoviesService.run()
+
+    const host = request.header('host')
+    console.log(host)
+
+    for (const movie of movies) {
+      movie.image_url = `http://${host}/movies/images?message_id=${movie.message_id}`
+    }
+
+    return response.json(movies)
+  }
+
   async stream({ request, response }: HttpContext) {
     const telegramService = await app.container.make(TelegramService)
 
@@ -38,10 +53,14 @@ export default class MoviesController {
     }
   }
 
-  async paginate({ response }: HttpContext) {
-    const paginateMoviesService = await app.container.make(PaginateMoviesService)
-    const movies = await paginateMoviesService.run()
+  async images({ request, response }: HttpContext) {
+    const { message_id: messageId } = request.qs()
 
-    return response.json(movies)
+    const getImageService = await app.container.make(GetImageService)
+    const image = await getImageService.run(messageId)
+
+    response.header('Content-Type', 'image/jpeg')
+
+    return response.send(image)
   }
 }
