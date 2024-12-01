@@ -19,7 +19,7 @@ info:
 
     <!-- ReDoc-Inject: <security-definitions> -->
   x-logo:
-    url: 'https://raw.githubusercontent.com/gabrielmaialva33/cinewinx-api/refs/heads/main/public/docs/logo.jpg'
+    url: 'https://raw.githubusercontent.com/gabrielmaialva33/cinewinx-api/refs/heads/main/.github/assets/logo.jpg'
     altText: Logo
   contact:
     name: Gabriel M.
