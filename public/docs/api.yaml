@@ -77,13 +77,14 @@ paths:
             example: application/json
       responses:
         '200':
-          description: A list of movies.
+          description: A list of posts of the movies.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Movie'
+                  $ref: '#/components/schemas/Post'
+
   /movies/stream:
     get:
       summary: Stream Movie
@@ -137,17 +138,52 @@ paths:
             example: 7188
       responses:
         '200':
-          description: The movie.
+          description: The post of the movie.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Movie'
+                $ref: '#/components/schemas/Post'
         '404':
           description: Movie not found.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotFound'
+  /movies/images:
+    get:
+      summary: Get Movie Image
+      description: Returns a movie image by ID.
+      tags:
+        - Movie
+      parameters:
+        - name: Content-Type
+          in: header
+          required: true
+          schema:
+            type: string
+            example: application/json
+        - name: messageId
+          in: query
+          required: true
+          schema:
+            type: number
+            format: int64
+            example: 7188
+      responses:
+        '200':
+          description: The image buffer
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Image not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
 components:
   securitySchemes:
     bearerToken:
@@ -200,15 +236,15 @@ components:
                 example: email
             example:
               - {
-                'message': 'The email has already been taken',
-                'rule': 'database.unique',
-                'field': 'email',
-              }
+                  'message': 'The email has already been taken',
+                  'rule': 'database.unique',
+                  'field': 'email',
+                }
               - {
-                'message': 'The username has already been taken',
-                'rule': 'database.unique',
-                'field': 'username',
-              }
+                  'message': 'The username has already been taken',
+                  'rule': 'database.unique',
+                  'field': 'username',
+                }
 
     # health schemas
     HealthCheckResponse:
@@ -359,16 +395,152 @@ components:
     Movie:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          description: The unique identifier of the movie.
-          example: 1f4d3f5e-2b64-4f5d-9b6d-2f4d3f5e2b64
         title:
           type: string
           description: The title of the movie.
-          example: The Shawshank Redemption
-        description:
+          example: Fúria Sem Limites
+        release_date:
           type: string
-          description: The description of the movie.
-          example: Two imprisoned
+          description: The release date of the movie.
+          example: 2022
+        country_of_origin:
+          type: array
+          items:
+            type: string
+          description: The country of origin of the movie.
+          example: [Japão]
+        flags_of_origin:
+          type: array
+          items:
+            type: string
+          description: The flags of the country of origin of the movie.
+          example: [🇯🇵]
+        directors:
+          type: array
+          items:
+            type: string
+          description: The directors of the movie.
+          example: [YoshikiTakahashi]
+        writers:
+          type: array
+          items:
+            type: string
+          description: The writers of the movie.
+          example: []
+        cast:
+          type: array
+          items:
+            type: string
+          description: The cast of the movie.
+          example: [YohtaKawase, RyujuKobayashi, EitaOkuno, AyaSaiki, ShingoMizusawa]
+        languages:
+          type: array
+          items:
+            type: string
+          description: The languages of the movie.
+          example: [Português]
+        flags_of_language:
+          type: array
+          items:
+            type: string
+          description: The flags of the languages of the movie.
+          example: [🇧🇷]
+        subtitles:
+          type: array
+          items:
+            type: string
+          description: The subtitles of the movie.
+          example: []
+        flags_of_subtitles:
+          type: array
+          items:
+            type: string
+          description: The flags of the subtitles of the movie.
+          example: []
+        genres:
+          type: array
+          items:
+            type: string
+          description: The genres of the movie.
+          example: [Ação, Drama, Thriller, Mistério, CinemaJaponês]
+        tags:
+          type: array
+          items:
+            type: string
+          description: The tags of the movie.
+          example: []
+        synopsis:
+          type: string
+          description: The synopsis of the movie.
+          example: Fukama é um detetive japonês conhecido por perder o controle quando sente raiva. Após um tratamento no exterior, ele retorna ao Japão e encontra sua cidade protegida por um grupo de vigilantes. Ao descobrir segredos obscuros sobre o grupo, Fukama percebe que sua raiva será colocada à prova mais uma vez.
+        curiosities:
+          type: string
+          description: The curiosities of the movie.
+          example: null
+      example:
+        {
+          'title': 'Fúria Sem Limites',
+          'release_date': '2022',
+          'country_of_origin': ['Japão'],
+          'flags_of_origin': ['🇯🇵'],
+          'directors': ['YoshikiTakahashi'],
+          'writers': [],
+          'cast': ['YohtaKawase', 'RyujuKobayashi', 'EitaOkuno', 'AyaSaiki', 'ShingoMizusawa'],
+          'languages': ['Português'],
+          'flags_of_language': ['🇧🇷'],
+          'subtitles': [],
+          'flags_of_subtitles': [],
+          'genres': ['Ação', 'Drama', 'Thriller', 'Mistério', 'CinemaJaponês'],
+          'tags': [],
+          'synopsis': 'Fukama é um detetive japonês conhecido por perder o controle quando sente raiva. Após um tratamento no exterior, ele retorna ao Japão e encontra sua cidade protegida por um grupo de vigilantes. Ao descobrir segredos obscuros sobre o grupo, Fukama percebe que sua raiva será colocada à prova mais uma vez.',
+          'curiosities': null,
+        }
+    Post:
+      type: object
+      properties:
+        image_url:
+          type: string
+          description: The URL of the image.
+          example: http://localhost:3333/movies/images?message_id=7188
+        video_url:
+          type: string
+          description: The URL of the video.
+          example: 'http://localhost:3333/movies/stream?document_id=5044457385712682420'
+        grouped_id:
+          type: string
+          description: The grouped ID of the post.
+          example: 13864104313698361
+        message_id:
+          type: number
+          format: int64
+          description: The message ID of the post.
+          example: 7188
+        date:
+          type: number
+          format: int64
+          description: The date of the post.
+          example: 1733013039
+        author:
+          type: string
+          description: The author of the post.
+          example: S̶̼̯͒̆̃͑̆r̷̢̖̥̞̱͚̮̦͚͐͐̀͐ͅ.̷̖̂̾N̵̏̄ ͔͙̭̯̰̖̌̚
+        reactions:
+          type: array
+          items:
+            type: object
+            properties:
+              reaction:
+                type: string
+                description: The reaction.
+                example: 👍
+              count:
+                type: number
+                format: int64
+                description: The count of the reaction.
+                example: 2
+        original_content:
+          type: string
+          description: The original content of the post.
+          example: '📺 Fúria Sem Limites #2022y\n\nPais de Origem: Japão 🇯🇵\nDireção: #YoshikiTakahashi\nElenco: #YohtaKawase'
+        parsed_content:
+          $ref: '#/components/schemas/Movie'

@@ -245,9 +245,7 @@ export default function parseMessageContent(content: string): MovieData {
       }
       const isEndOfField = endOfFieldMarkers.some((marker) => lineStartsWithLabel(line, [marker]))
       if (isNewField || isEndOfField) {
-        if (typeof dataInfo[currentField] === 'string') {
-          dataInfo[currentField] = multilineBuffer.join(' ').trim() as any
-        }
+        dataInfo[currentField] = multilineBuffer.join(' ').trim() as any
         currentField = null
         multilineBuffer = []
         // reprocess this line in the next loop
@@ -294,9 +292,7 @@ export default function parseMessageContent(content: string): MovieData {
 
   // finish any pending multiline field
   if (currentField) {
-    if (typeof dataInfo[currentField] === 'string') {
-      dataInfo[currentField] = multilineBuffer.join(' ').trim() as any
-    }
+    dataInfo[currentField] = multilineBuffer.join(' ').trim() as any
   }
 
   return dataInfo

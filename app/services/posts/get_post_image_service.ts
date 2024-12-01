@@ -15,12 +15,12 @@ export default class GetPostImageService {
   async run(messageId: number) {
     const cacheKey = `post-image-${messageId}`
     if (this.cacheService.has(cacheKey)) {
-      return this.cacheService.get(cacheKey)
+      return this.cacheService.get<Buffer<ArrayBufferLike>>(cacheKey)
     }
 
     const image = await this.telegramRepository.getImage(messageId)
     if (!image) {
-      throw new NotFoundException('Image not found')
+      throw new NotFoundException('image not found')
     }
 
     this.cacheService.set(cacheKey, image)

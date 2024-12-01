@@ -4,7 +4,7 @@ import { inject } from '@adonisjs/core'
 export default class CacheService {
   #store: Record<string, any> = {}
 
-  get(key: string) {
+  get<T>(key: string): T {
     return this.#store[key]
   }
 

@@ -1,3 +1,6 @@
+import { Api } from 'telegram'
+import { BigNumber } from 'big-integer'
+
 export type MovieData = {
   title: string | null
   release_date: string | null
@@ -14,6 +17,19 @@ export type MovieData = {
   tags: string[]
   synopsis: string | null
   curiosities: string | null
+}
+
+export type Post = {
+  image_url: string
+  video_url: string
+  grouped_id: BigNumber | string | undefined
+  message_id: number
+  date: number
+  author: string | undefined
+  reactions: Array<{ reaction: any; count: number }>
+  original_content: string
+  parsed_content: MovieData
+  document: Api.Document
 }
 
 export interface FieldDefinition {

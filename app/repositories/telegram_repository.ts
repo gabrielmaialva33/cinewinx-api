@@ -1,10 +1,14 @@
 import { Api, TelegramClient } from 'telegram'
+
 import type { Entity } from 'telegram/define.js'
 import bigInt from 'big-integer'
+import { Readable } from 'node:stream'
 import app from '@adonisjs/core/services/app'
 
 import env from '#start/env'
 import parseMessageContent from '#helpers/parse_message_content'
+import { Post } from '#interfaces/movie_types'
+
 import BadRequestException from '#exceptions/bad_request_exception'
 
 let telegramClient: TelegramClient
@@ -131,7 +135,7 @@ export default class TelegramRepository {
     return this.telegram.downloadMedia(message[0])
   }
 
-  public async getPost(messageId: number) {
+  public async getPost(messageId: number): Promise<Post | undefined> {
     const messages = await this.telegram.getMessages(this.channel, {
       ids: [
         new Api.InputMessageID({ id: +messageId }),
@@ -165,6 +169,7 @@ export default class TelegramRepository {
 
       return {
         image_url: '',
+        video_url: '',
         grouped_id: infoMessage.groupedId,
         message_id: infoMessage.id,
         date: infoMessage.date,
@@ -172,13 +177,13 @@ export default class TelegramRepository {
         reactions: reactions,
         original_content: infoMessage.message,
         parsed_content: parsedData,
-        video_url: '',
+
         document: mediaMessage.media.document,
       }
     }
   }
 
-  public async getVideoStream(document: Api.Document, start: number, end: number) {
+  public getVideoStream(document: Api.Document, start: number, end: number) {
     const fileSize = document.size
     const downloadParams = this.computeDownloadParams(fileSize)
 
@@ -198,7 +203,7 @@ export default class TelegramRepository {
       fileSize: document.size,
     })
 
-    return iterable
+    return Readable.from(iterable)
   }
 
   private computeDownloadParams(fileSize: bigInt.BigInteger) {
