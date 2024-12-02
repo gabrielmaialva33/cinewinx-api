@@ -10,9 +10,6 @@
 */
 
 import 'reflect-metadata'
-import cluster from 'node:cluster'
-import { cpus } from 'node:os'
-
 import { Ignitor, prettyPrintError } from '@adonisjs/core'
 
 /**
@@ -32,48 +29,17 @@ const IMPORTER = (filePath: string) => {
   return import(filePath)
 }
 
-if (cluster.isPrimary) {
-  const numCPUs = cpus().length
-  console.log(`master ${process.pid} is running`)
-
-  for (let i = 0; i < numCPUs; i++) {
-    cluster.fork()
-  }
-
-  cluster.on('exit', (worker, code, signal) => {
-    console.log(`worker ${worker.process.pid} died with code: ${code} and signal: ${signal}`)
+new Ignitor(APP_ROOT, { importer: IMPORTER })
+  .tap((app) => {
+    app.booting(async () => {
+      await import('#start/env')
+    })
+    app.listen('SIGTERM', () => app.terminate())
+    app.listenIf(app.managedByPm2, 'SIGINT', () => app.terminate())
   })
-} else {
-  new Ignitor(APP_ROOT, { importer: IMPORTER })
-    .tap((app) => {
-      app.booting(async () => {
-        await import('#start/env')
-      })
-      app.listen('SIGTERM', () => app.terminate())
-      app.listenIf(app.managedByPm2, 'SIGINT', () => app.terminate())
-    })
-    .httpServer()
-    .start()
-    .then(() => {
-      console.log(`worker ${process.pid} started`)
-    })
-    .catch((error) => {
-      process.exitCode = 1
-      prettyPrintError(error)
-    })
-}
-
-// new Ignitor(APP_ROOT, { importer: IMPORTER })
-//   .tap((app) => {
-//     app.booting(async () => {
-//       await import('#start/env')
-//     })
-//     app.listen('SIGTERM', () => app.terminate())
-//     app.listenIf(app.managedByPm2, 'SIGINT', () => app.terminate())
-//   })
-//   .httpServer()
-//   .start()
-//   .catch((error) => {
-//     process.exitCode = 1
-//     prettyPrintError(error)
-//   })
+  .httpServer()
+  .start()
+  .catch((error) => {
+    process.exitCode = 1
+    prettyPrintError(error)
+  })
