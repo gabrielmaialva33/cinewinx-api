@@ -31,8 +31,8 @@ info:
 servers:
   - url: http://localhost:3333
     description: Local server
-  - url: https://route.cinewinx.com.br
-    description: Production server
+  - url: https://dev.cinewinx.com.br
+    description: Development server
 tags:
   - name: Session
     description: Operations related to sessions
