@@ -10,6 +10,7 @@ export default class StreamsController {
 
     const range = request.header('range')
     if (!range) {
+      response.status(206)
       response.header('Content-Type', 'video/mp4')
       response.header('Content-Length', size.toString())
       const stream = await streamVideoService.run(Number.parseInt(documentId, 10), {

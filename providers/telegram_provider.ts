@@ -19,11 +19,6 @@ export default class TelegramProvider {
       return new TelegramClient(stringSession, apiId, apiHash, {
         connectionRetries: 10,
         autoReconnect: true,
-        maxConcurrentDownloads: 50,
-        floodSleepThreshold: 30,
-        retryDelay: 1000,
-        timeout: 180,
-        useWSS: false,
       })
     })
   }
