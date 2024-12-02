@@ -1,4 +1,5 @@
 import { inject } from '@adonisjs/core'
+import app from '@adonisjs/core/services/app'
 
 import TelegramRepository from '#repositories/telegram_repository'
 import CacheService from '#services/cache_service'
@@ -7,15 +8,14 @@ import NotFoundException from '#exceptions/not_found_exception'
 
 @inject()
 export default class GetPostImageService {
-  constructor(
-    private telegramRepository: TelegramRepository,
-    private cacheService: CacheService
-  ) {}
+  constructor(private telegramRepository: TelegramRepository) {}
 
   async run(messageId: number) {
+    const cacheService = await app.container.make(CacheService)
+
     const cacheKey = `post-image-${messageId}`
-    if (this.cacheService.has(cacheKey)) {
-      return this.cacheService.get<Buffer<ArrayBufferLike>>(cacheKey)
+    if (cacheService.has(cacheKey)) {
+      return cacheService.get<Buffer<ArrayBufferLike>>(cacheKey)
     }
 
     const image = await this.telegramRepository.getImage(messageId)
@@ -23,7 +23,7 @@ export default class GetPostImageService {
       throw new NotFoundException('image not found')
     }
 
-    this.cacheService.set(cacheKey, image)
+    cacheService.set(cacheKey, image)
 
     return image
   }
