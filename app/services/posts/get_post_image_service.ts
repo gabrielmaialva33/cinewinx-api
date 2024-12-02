@@ -14,7 +14,7 @@ export default class GetPostImageService {
     const cacheService = await app.container.make(CacheService)
 
     const cacheKey = `post-image-${messageId}`
-    if (cacheService.has(cacheKey)) {
+    if (await cacheService.has(cacheKey)) {
       return cacheService.get<Buffer<ArrayBufferLike>>(cacheKey)
     }
 
@@ -23,7 +23,7 @@ export default class GetPostImageService {
       throw new NotFoundException('image not found')
     }
 
-    cacheService.set(cacheKey, image)
+    await cacheService.set(cacheKey, image)
 
     return image
   }

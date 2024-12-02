@@ -188,7 +188,8 @@ export default class TelegramRepository {
       file: new Api.InputDocumentFileLocation({
         id: document.id,
         accessHash: document.accessHash,
-        fileReference: document.fileReference,
+        // @ts-ignore
+        fileReference: Buffer.from(document.fileReference.data),
         thumbSize: '',
       }),
       offset: bigInt(start),

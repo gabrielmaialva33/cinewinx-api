@@ -29,7 +29,7 @@ export default class MoviesController {
 
     // set image_url and video_url
     post.image_url = `http://${request.header('host')}/movies/images?message_id=${post.message_id}`
-    post.video_url = `http://${request.header('host')}/movies/videos?document_id=${post.document.id.toString()}&size=${post.document.size.toJSNumber()}`
+    post.video_url = `http://${request.header('host')}/movies/videos?document_id=${post.document.id.toString()}&size=${post.document.size}`
 
     return response.json(post)
   }

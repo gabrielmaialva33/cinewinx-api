@@ -14,7 +14,7 @@ export default class StreamVideoService {
     const cacheService = await app.container.make(CacheService)
 
     const documentCacheKey = `document-${documentId}`
-    const document = cacheService.get<Api.Document>(documentCacheKey)
+    const document = await cacheService.get<Api.Document>(documentCacheKey)
     if (!document) {
       throw new NotFoundException('document not found in cache')
     }
