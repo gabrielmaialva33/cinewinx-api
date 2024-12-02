@@ -17,8 +17,13 @@ export default class TelegramProvider {
       const stringSession = new StringSession(Env.get('STRING_SESSION') ?? '')
 
       return new TelegramClient(stringSession, apiId, apiHash, {
-        connectionRetries: 5,
+        connectionRetries: 10,
         autoReconnect: true,
+        maxConcurrentDownloads: 50,
+        floodSleepThreshold: 30,
+        retryDelay: 1000,
+        timeout: 180,
+        useWSS: false,
       })
     })
   }

@@ -207,22 +207,22 @@ export default class TelegramRepository {
     const sizeInMB = Number(fileSize) / (1024 * 1024) // Convert to MB
 
     let params = {
-      chunkSize: 4 * 1024 * 1024,
-      requestSize: 4 * 1024 * 1024,
-      stride: 4 * 1024 * 1024,
+      chunkSize: 8 * 1024 * 1024, // 8 MB para maior eficiência em arquivos grandes
+      requestSize: 8 * 1024 * 1024,
+      stride: 8 * 1024 * 1024,
     }
 
     if (sizeInMB <= 10) {
       params = {
-        chunkSize: 512 * 1024,
-        requestSize: 512 * 1024,
-        stride: 512 * 1024,
+        chunkSize: 1 * 1024 * 1024, // 1 MB para arquivos pequenos
+        requestSize: 1 * 1024 * 1024,
+        stride: 1 * 1024 * 1024,
       }
     } else if (sizeInMB <= 100) {
       params = {
-        chunkSize: 1024 * 1024,
-        requestSize: 1024 * 1024,
-        stride: 1024 * 1024,
+        chunkSize: 4 * 1024 * 1024,
+        requestSize: 4 * 1024 * 1024,
+        stride: 4 * 1024 * 1024,
       }
     }
 
