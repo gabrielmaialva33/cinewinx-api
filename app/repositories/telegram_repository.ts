@@ -181,9 +181,6 @@ export default class TelegramRepository {
   }
 
   public getVideoStream(document: Api.Document, start: number, end: number) {
-    const fileSize = document.size
-    const downloadParams = this.computeDownloadParams(fileSize)
-
     const iterable = this.telegram.iterDownload({
       file: new Api.InputDocumentFileLocation({
         id: document.id,
@@ -194,44 +191,12 @@ export default class TelegramRepository {
       }),
       offset: bigInt(start),
       limit: end - start + 1,
-      requestSize: downloadParams.requestSize,
-      chunkSize: downloadParams.chunkSize,
-      stride: downloadParams.stride,
+      chunkSize: 1024 * 1024,
+      requestSize: 1024 * 1024,
       dcId: document.dcId,
       fileSize: document.size,
     })
 
     return Readable.from(iterable)
-  }
-
-  private computeDownloadParams(fileSize: bigInt.BigInteger) {
-    const sizeInMB = Number(fileSize) / (1024 * 1024) // Convert to MB
-
-    let params = {
-      chunkSize: 8 * 1024 * 1024, // 8 MB para maior eficiência em arquivos grandes
-      requestSize: 8 * 1024 * 1024,
-      stride: 8 * 1024 * 1024,
-    }
-
-    if (sizeInMB <= 10) {
-      params = {
-        chunkSize: 1 * 1024 * 1024, // 1 MB para arquivos pequenos
-        requestSize: 1 * 1024 * 1024,
-        stride: 1 * 1024 * 1024,
-      }
-    } else if (sizeInMB <= 100) {
-      params = {
-        chunkSize: 4 * 1024 * 1024,
-        requestSize: 4 * 1024 * 1024,
-        stride: 4 * 1024 * 1024,
-      }
-    }
-
-    const maxAllowedSize = 512 * 1024 * 1024 // 512 MB
-    return {
-      chunkSize: Math.min(params.chunkSize, maxAllowedSize),
-      requestSize: Math.min(params.requestSize, maxAllowedSize),
-      stride: Math.min(params.stride, maxAllowedSize),
-    }
   }
 }
