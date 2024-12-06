@@ -6,7 +6,7 @@
 </table>
 
 <p align="center">
-  <strong>An open-source API for index and stream movies and series using <a href="https://t.me/cinewinx">CineWinx</a> channel.</strong>
+  <strong>An open-source API for index and stream movies and series using <a href="https://t.me/cinewinxy">CineWinx</a> channel.</strong>
 </p>
 
 <p align="center">
@@ -36,7 +36,7 @@
 ## :bookmark: About
 
 **ＣｉｎｅＷｉｎｘ** is an open-source API for index and stream movies and
-series using the **[CineWinx](https://t.me/cinewinx)** channel.
+series using the **[CineWinx](https://t.me/cinewinxy)** channel.
 This project was developed using **[AdonisJS](https://adonisjs.com/)**
 and **[GramJS](https://gram.js.org/introduction/)**.
 
