@@ -105,7 +105,7 @@ export default class TelegramRepository {
           // const media = group.messages.find((msg) => msg.media instanceof Api.MessageMediaPhoto)
           //   ?.media as Api.MessageMediaPhoto
 
-          // const imageUrl = `/movies/images?message_id=${info.id}`
+          // const imageUrl = `/posts/images?message_id=${info.id}`
 
           return {
             image_url: '',
@@ -186,7 +186,8 @@ export default class TelegramRepository {
         id: document.id,
         accessHash: document.accessHash,
         // @ts-ignore
-        fileReference: Buffer.from(document.fileReference.data),
+        //fileReference: Buffer.from(document.fileReference.data),
+        fileReference: document.fileReference,
         thumbSize: '',
       }),
       offset: bigInt(start),
