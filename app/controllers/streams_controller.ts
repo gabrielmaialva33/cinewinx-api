@@ -8,7 +8,7 @@ export default class StreamsController {
 
     const streamVideoService = await app.container.make(StreamVideoService)
 
-    const range = request.header('range')
+    const range = request.header('Range')
     if (!range) {
       response.header('Content-Type', 'video/mp4')
       response.header('Content-Length', size.toString())
