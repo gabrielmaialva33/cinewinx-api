@@ -31,15 +31,13 @@ export const fieldDefinitions: FieldDefinition[] = [
       data.flags_of_origin = []
 
       countries.forEach((country) => {
-        // extract flags (emojis)
         const flagRegex = /(\p{Emoji_Presentation}+)/u
         const flagMatch = country.match(flagRegex)
         if (flagMatch) {
           data.flags_of_origin.push(flagMatch[1])
         }
-        // remover flags from country name
+
         let countryName = country.replace(flagRegex, '').trim()
-        // remove '#' from the beginning, if present
         if (countryName.startsWith('#')) {
           countryName = countryName.substring(1)
         }
@@ -103,13 +101,11 @@ export const fieldDefinitions: FieldDefinition[] = [
       data.flags_of_language = []
 
       languages.forEach((language) => {
-        // Extrair bandeiras (emojis)
         const flagRegex = /(\p{Emoji_Presentation}+)/u
         const flagMatch = language.match(flagRegex)
         if (flagMatch) {
           data.flags_of_language.push(flagMatch[1])
         }
-        // Remover bandeiras e hashtags do nome do idioma
         let languageName = language.replace(flagRegex, '').replace(/#\w+/g, '').trim()
         if (languageName) {
           data.languages.push(languageName)
@@ -163,7 +159,12 @@ export const fieldDefinitions: FieldDefinition[] = [
     isMultiline: true,
     process: (match, _data) => {
       if (match[1] && match[1].trim() !== '') {
-        multilineBuffer.push(match[1].trim())
+        // Remover conteúdo indesejado com regex
+        const cleanedContent = match[1]
+          .trim()
+          .replace(/📢❕❕❕❕❕❕✉️ ➖➖➖🌟Clique Aqui🌟➖➖➖ 🪆 ❕❕❕❕❕❕❕❕🆕/g, '')
+          .trim()
+        multilineBuffer.push(cleanedContent)
       }
     },
   },
@@ -217,6 +218,7 @@ export default function parseMessageContent(content: string): MovieData {
     '💬',
     '#',
     '✨ Elenco:',
+    '📢',
   ]
 
   // check if the line starts with any of the labels, ignoring prefixes
