@@ -27,9 +27,11 @@ export default class PostsController {
     const getPostService = await app.container.make(GetPostService)
     const post = await getPostService.run(id)
 
-    // set image_url and video_url
-    post.image_url = `http://${request.header('host')}/movies/images?message_id=${post.message_id}`
-    post.video_url = `http://${request.header('host')}/movies/videos?document_id=${post.document.id.toString()}&size=${post.document.size}`
+    const host = request.header('host', 'localhost')
+    const protocol = request.protocol()
+
+    post.image_url = `${protocol}://${host}/posts/images?message_id=${post.message_id}`
+    post.video_url = `${protocol}://${host}/posts/videos?document_id=${post.document.id.toString()}&size=${post.document.size}`
 
     return response.json(post)
   }
