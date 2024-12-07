@@ -14,11 +14,11 @@ export default class GetPostService {
     const cacheService = await app.container.make(CacheService)
 
     const postCacheKey = `post-${messageId}`
-    if (await cacheService.has(postCacheKey)) {
-      const postCached = await cacheService.get<Post>(postCacheKey)
+    if (await cacheService.$has(postCacheKey)) {
+      const postCached = await cacheService.$get<Post>(postCacheKey)
       const documentCacheKey = `document-${Number.parseInt(postCached.document.id.toString(), 10)}`
-      if (!(await cacheService.has(documentCacheKey))) {
-        await cacheService.set(documentCacheKey, postCached.document)
+      if (!(await cacheService.$has(documentCacheKey))) {
+        await cacheService.$set(documentCacheKey, postCached.document)
       }
 
       return postCached
@@ -29,11 +29,11 @@ export default class GetPostService {
       throw new NotFoundException('post not found')
     }
 
-    await cacheService.set(postCacheKey, post)
+    await cacheService.$set(postCacheKey, post)
 
     const documentCacheKey = `document-${Number.parseInt(post.document.id.toString(), 10)}`
-    if (!(await cacheService.has(documentCacheKey))) {
-      await cacheService.set(documentCacheKey, post.document)
+    if (!(await cacheService.$has(documentCacheKey))) {
+      await cacheService.$set(documentCacheKey, post.document)
     }
 
     return post
