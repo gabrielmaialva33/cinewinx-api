@@ -248,15 +248,15 @@ components:
                 example: email
             example:
               - {
-                'message': 'The email has already been taken',
-                'rule': 'database.unique',
-                'field': 'email',
-              }
+                  'message': 'The email has already been taken',
+                  'rule': 'database.unique',
+                  'field': 'email',
+                }
               - {
-                'message': 'The username has already been taken',
-                'rule': 'database.unique',
-                'field': 'username',
-              }
+                  'message': 'The username has already been taken',
+                  'rule': 'database.unique',
+                  'field': 'username',
+                }
 
     # health schemas
     HealthCheckResponse:
@@ -420,67 +420,67 @@ components:
           items:
             type: string
           description: The country of origin of the movie.
-          example: [ Japão ]
+          example: [Japão]
         flags_of_origin:
           type: array
           items:
             type: string
           description: The flags of the country of origin of the movie.
-          example: [ 🇯🇵 ]
+          example: [🇯🇵]
         directors:
           type: array
           items:
             type: string
           description: The directors of the movie.
-          example: [ YoshikiTakahashi ]
+          example: [YoshikiTakahashi]
         writers:
           type: array
           items:
             type: string
           description: The writers of the movie.
-          example: [ ]
+          example: []
         cast:
           type: array
           items:
             type: string
           description: The cast of the movie.
-          example: [ YohtaKawase, RyujuKobayashi, EitaOkuno, AyaSaiki, ShingoMizusawa ]
+          example: [YohtaKawase, RyujuKobayashi, EitaOkuno, AyaSaiki, ShingoMizusawa]
         languages:
           type: array
           items:
             type: string
           description: The languages of the movie.
-          example: [ Português ]
+          example: [Português]
         flags_of_language:
           type: array
           items:
             type: string
           description: The flags of the languages of the movie.
-          example: [ 🇧🇷 ]
+          example: [🇧🇷]
         subtitles:
           type: array
           items:
             type: string
           description: The subtitles of the movie.
-          example: [ ]
+          example: []
         flags_of_subtitles:
           type: array
           items:
             type: string
           description: The flags of the subtitles of the movie.
-          example: [ ]
+          example: []
         genres:
           type: array
           items:
             type: string
           description: The genres of the movie.
-          example: [ Ação, Drama, Thriller, Mistério, CinemaJaponês ]
+          example: [Ação, Drama, Thriller, Mistério, CinemaJaponês]
         tags:
           type: array
           items:
             type: string
           description: The tags of the movie.
-          example: [ ]
+          example: []
         synopsis:
           type: string
           description: The synopsis of the movie.
@@ -493,17 +493,17 @@ components:
         {
           'title': 'Fúria Sem Limites',
           'release_date': '2022',
-          'country_of_origin': [ 'Japão' ],
-          'flags_of_origin': [ '🇯🇵' ],
-          'directors': [ 'YoshikiTakahashi' ],
-          'writers': [ ],
-          'cast': [ 'YohtaKawase', 'RyujuKobayashi', 'EitaOkuno', 'AyaSaiki', 'ShingoMizusawa' ],
-          'languages': [ 'Português' ],
-          'flags_of_language': [ '🇧🇷' ],
-          'subtitles': [ ],
-          'flags_of_subtitles': [ ],
-          'genres': [ 'Ação', 'Drama', 'Thriller', 'Mistério', 'CinemaJaponês' ],
-          'tags': [ ],
+          'country_of_origin': ['Japão'],
+          'flags_of_origin': ['🇯🇵'],
+          'directors': ['YoshikiTakahashi'],
+          'writers': [],
+          'cast': ['YohtaKawase', 'RyujuKobayashi', 'EitaOkuno', 'AyaSaiki', 'ShingoMizusawa'],
+          'languages': ['Português'],
+          'flags_of_language': ['🇧🇷'],
+          'subtitles': [],
+          'flags_of_subtitles': [],
+          'genres': ['Ação', 'Drama', 'Thriller', 'Mistério', 'CinemaJaponês'],
+          'tags': [],
           'synopsis': 'Fukama é um detetive japonês conhecido por perder o controle quando sente raiva. Após um tratamento no exterior, ele retorna ao Japão e encontra sua cidade protegida por um grupo de vigilantes. Ao descobrir segredos obscuros sobre o grupo, Fukama percebe que sua raiva será colocada à prova mais uma vez.',
           'curiosities': null,
         }
