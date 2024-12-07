@@ -7,17 +7,17 @@ import redis from '@adonisjs/redis/services/main'
 export default class CacheService {
   #store: Record<string, any> = {}
 
-  $get<T>(key: string): T {
+  async $get<T>(key: string): Promise<T> {
     logger.info(`getting ${key} from cache`)
     return this.#store[key]
   }
 
-  $set(key: string, value: any) {
+  async $set(key: string, value: any) {
     logger.info(`setting ${key} in cache`)
     this.#store[key] = value
   }
 
-  $has(key: string) {
+  async $has(key: string) {
     logger.info(`checking if ${key} exists in cache`)
     return key in this.#store
   }
