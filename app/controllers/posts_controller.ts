@@ -7,19 +7,19 @@ import GetPostImageService from '#services/posts/get_post_image_service'
 import GetPostService from '#services/posts/get_post_service'
 
 @inject()
-export default class MoviesController {
+export default class PostsController {
   async paginate({ request, response }: HttpContext) {
-    const paginateMoviesService = await app.container.make(PaginatePostService)
-    const movies = await paginateMoviesService.run()
+    const paginatePostsService = await app.container.make(PaginatePostService)
+    const posts = await paginatePostsService.run()
 
-    const host = request.header('host')
-    console.log(host)
+    const host = request.header('host', 'localhost')
+    const protocol = request.protocol()
 
-    for (const movie of movies) {
-      movie.image_url = `http://${host}/movies/images?message_id=${movie.message_id}`
+    for (const movie of posts) {
+      movie.image_url = `${protocol}://${host}/posts/images?message_id=${movie.message_id}`
     }
 
-    return response.json(movies)
+    return response.json(posts)
   }
 
   async get({ request, response }: HttpContext) {
