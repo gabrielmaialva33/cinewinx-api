@@ -4,7 +4,7 @@ import app from '@adonisjs/core/services/app'
 import TelegramRepository from '#repositories/telegram_repository'
 import NotFoundException from '#exceptions/not_found_exception'
 import CacheService from '#services/cache_service'
-import { Post } from '#interfaces/movie_types'
+import { Post } from '#interfaces/post_types'
 
 @inject()
 export default class GetPostService {

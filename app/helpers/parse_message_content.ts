@@ -1,4 +1,4 @@
-import { FieldDefinition, MovieData } from '#interfaces/movie_types'
+import { FieldDefinition, MovieData } from '#interfaces/post_types'
 
 let currentField: keyof MovieData | null = null
 let multilineBuffer: string[] = []

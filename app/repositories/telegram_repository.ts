@@ -5,7 +5,7 @@ import { Readable } from 'node:stream'
 import app from '@adonisjs/core/services/app'
 
 import env from '#start/env'
-import { Post } from '#interfaces/movie_types'
+import { Post } from '#interfaces/post_types'
 import BadRequestException from '#exceptions/bad_request_exception'
 
 import parseMessageContent from '#helpers/parse_message_content'
