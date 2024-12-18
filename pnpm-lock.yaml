@@ -12,8 +12,8 @@ importers:
   .:
     dependencies:
       '@adonisjs/auth':
-        specifier: ^9.2.4
-        version: 9.2.4(v3wii2djpszvecackhiqie2bci)
+        specifier: ^9.3.0
+        version: 9.3.0(v3wii2djpszvecackhiqie2bci)
       '@adonisjs/core':
         specifier: ^6.16.0
         version: 6.16.0(@adonisjs/assembler@7.8.2(typescript@5.7.2))(@vinejs/vine@3.0.0)(edge.js@6.2.0)
@@ -128,8 +128,8 @@ packages:
     peerDependencies:
       typescript: ^4.0.0 || ^5.0.0
 
-  '@adonisjs/auth@9.2.4':
-    resolution: {integrity: sha512-n6YLy1U0ClKCNFRwC3t+TQBXlJjKwGmRQEQdJnuSgK1L38R8KhU9LbsFTkMH+iKSOigMRQlILtd4Sgf0ekoC6w==}
+  '@adonisjs/auth@9.3.0':
+    resolution: {integrity: sha512-fJ6QNiCwWuIWONgwruPrzkkMK4EOj8YoCbrdnvHh6HdMXLTyp9xPR3xbbg2BTb1ssKxAnsaaNR+HPYfGLNYacw==}
     engines: {node: '>=18.16.0'}
     peerDependencies:
       '@adonisjs/core': ^6.11.0
@@ -3309,7 +3309,7 @@ snapshots:
     transitivePeerDependencies:
       - babel-plugin-macros
 
-  '@adonisjs/auth@9.2.4(v3wii2djpszvecackhiqie2bci)':
+  '@adonisjs/auth@9.3.0(v3wii2djpszvecackhiqie2bci)':
     dependencies:
       '@adonisjs/core': 6.16.0(@adonisjs/assembler@7.8.2(typescript@5.7.2))(@vinejs/vine@3.0.0)(edge.js@6.2.0)
       '@adonisjs/presets': 2.6.3(@adonisjs/assembler@7.8.2(typescript@5.7.2))(@adonisjs/core@6.16.0(@adonisjs/assembler@7.8.2(typescript@5.7.2))(@vinejs/vine@3.0.0)(edge.js@6.2.0))
