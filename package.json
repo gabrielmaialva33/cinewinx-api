@@ -41,9 +41,9 @@
     "@adonisjs/prettier-config": "^1.4.0",
     "@adonisjs/tsconfig": "^1.4.0",
     "@japa/api-client": "^2.0.4",
-    "@japa/assert": "^4.0.0",
+    "@japa/assert": "^4.0.1",
     "@japa/plugin-adonisjs": "^3.0.1",
-    "@japa/runner": "^3.1.4",
+    "@japa/runner": "^4.0.0",
     "@swc/core": "1.10.4",
     "@types/luxon": "^3.4.2",
     "@types/node": "^22.10.5",
@@ -52,7 +52,7 @@
     "pino-pretty": "^13.0.0",
     "prettier": "^3.4.2",
     "ts-node-maintained": "^10.9.4",
-    "typescript": "~5.7.2"
+    "typescript": "~5.7.3"
   },
   "dependencies": {
     "@adonisjs/auth": "^9.3.0",
