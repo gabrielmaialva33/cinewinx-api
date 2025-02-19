@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@adonisjs/assembler": "^7.8.2",
-    "@adonisjs/eslint-config": "2.0.0-beta.7",
+    "@adonisjs/eslint-config": "2.0.0",
     "@adonisjs/prettier-config": "^1.4.0",
     "@adonisjs/tsconfig": "^1.4.0",
     "@japa/api-client": "^3.0.3",
