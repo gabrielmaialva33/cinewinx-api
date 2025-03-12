@@ -67,7 +67,7 @@
     "edge-iconify": "^2.0.1",
     "edge.js": "^6.2.1",
     "luxon": "^3.5.0",
-    "pg": "^8.13.1",
+    "pg": "^8.14.0",
     "reflect-metadata": "^0.2.2",
     "telegram": "^2.26.16"
   },
